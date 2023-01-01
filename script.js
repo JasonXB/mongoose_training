@@ -17,16 +17,11 @@ app.use(
 
 // visit http://localhost:3000/?name=amy to search for document with name: "amy"
 app.get("/", async (req, res) => {
-  // console.log(req.query.name)
-  try {
-    // GET STUDENT DOCUMENT USING THE STATIC METHOD (which acts as a premade query)
-    const studentDoc = await Student.findStudentByName(req.query.name); // null if not found
-    console.log(studentDoc);
-    // CALC & RETURN STUDENT'S LETTER GRADE USING THE INSTANCE METHOD
-    return res.status(200).send({ letterAverage: studentDoc.letterAverage() }); // prettier-ignore
-  } catch (error) {
-    return res.status(401).send(error);
-  }
+  // Take a peak at the doc on the DB and compare it to the doc here
+  const studentDoc = await Student.findOne({ name: "Kath" });
+  console.log(studentDoc); // doc on the DB
+  console.log(studentDoc.letterAverage)
+  return res.status(200).send({ success: true });
 });
 
 // CREATE a new student document

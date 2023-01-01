@@ -28,25 +28,16 @@ const studentSchema = new mongoose.Schema({
   },
 });
 
-// SET UP INSTANCE METHOD: Can be called on individual documents
-studentSchema.methods.letterAverage = function () {
+studentSchema.virtual("letterAverage").get(function () {
   const numAvg = this.average;
-  if (numAvg < 50) return "F";
-  else if (numAvg < 60) return "D";
-  else if (numAvg < 70) return "C";
-  else if (numAvg < 80) return "B";
-  else if (numAvg < 90) return "A";
-  else if (numAvg < 100) return "S";
+  if (numAvg < 50) return "F grade";
+  else if (numAvg < 60) return "D grade";
+  else if (numAvg < 70) return "C grade";
+  else if (numAvg < 80) return "B grade";
+  else if (numAvg < 90) return "A grade";
+  else if (numAvg < 100) return "S grade";
   else return null;
-};
-
-// SET UP STATIC METHOD: Premade query to be used on a model
-studentSchema.statics.findStudentByName = async function (name) {
-  return this.findOne({ name });
-};
-studentSchema.statics.findFacultyMembers = async function (faculty) {
-  return this.where("faculty").equals(faculty);
-};
+}); // return a value from this function
 
 // Create a User model to perform CRUD operations on the "Students" collection
 const Student = mongoose.model("Student", studentSchema);
